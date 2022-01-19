@@ -1,48 +1,38 @@
-import React, {Component} from 'react';
-
+import React, {useState} from 'react';
 import './add-item.css';
 
 
-export default class AddItem extends Component{
+const AddItem = ({onAdded}) =>{
    
-
-    state = {
-        label:'',
+const [label, setLabel] = useState('');
+   const onLabelChange = (e) => {
+        setLabel(e.target.value);
     };
 
-    onLabelChange = (e) => {
-        this.setState({label:e.target.value});
-    };
-
-    onSubmit = (e) => {
+  const onSubmit = (e) => {
         e.preventDefault();
-        if(this.state.label !== '') this.props.onAdded(this.state.label);
-        this.setState({
-            label:''
-        });
-        
+        if(label !== '') onAdded(label);
+        setLabel('');      
     }
- 
-    render(){ 
-           
+         
      return (
        <form className="add-item d-flex"
-             onSubmit={this.onSubmit}>
+             onSubmit={onSubmit}>
            <input type="text"
                   className="form-control"
-                  onChange = {this.onLabelChange}
+                  onChange = {onLabelChange}
                   placeholder= "What needs to be done"
-                  value={this.state.label}/>
+                  value={label}/>
            <button 
            className="btn btn-outline-secondary"
            type='button'
-           onClick = {this.onSubmit}
+           onClick = {onSubmit}
            title = 'Add new ToDo item'
            >Add</button>
        </form> 
-    )}
-
-    
+    )  
 }
 
+
+export default AddItem;
 
